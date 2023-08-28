@@ -75,6 +75,7 @@ export default function App() {
           component={Search}
           options={{
             ...commonStackScreenOpts,
+            animation: 'none',
           }}
         />
         <Stack.Screen
