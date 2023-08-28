@@ -5,8 +5,14 @@ import Home from './screens/Home';
 import Search from './screens/Search';
 import ViewGIF from './screens/ViewGIF';
 
+export type RootStackParams = {
+  Home: undefined;
+  Search: undefined;
+  ViewGIF: undefined;
+};
+
 export default function App() {
-  const Stack = createNativeStackNavigator();
+  const Stack = createNativeStackNavigator<RootStackParams>();
 
   return (
     <NavigationContainer>
