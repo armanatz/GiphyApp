@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { TextInput } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import SearchBar from '../components/SearchBar';
+import { SearchBar } from '../components';
 import type { RootStackParams } from '../App';
 
 type SearchProps = NativeStackScreenProps<RootStackParams, 'Search'>;

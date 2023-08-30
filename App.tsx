@@ -6,9 +6,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-import Home from './screens/Home';
-import Search from './screens/Search';
-import ViewGIF from './screens/ViewGIF';
+import { Home, Search, ViewGIF } from './screens';
 
 export type RootStackParams = {
   Home: undefined;
