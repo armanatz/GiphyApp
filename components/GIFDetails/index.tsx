@@ -4,11 +4,13 @@ import ImageWrapper from '../ImageWrapper';
 import MetaData from './MetaData';
 import AgeRating from './AgeRating';
 
+import type { GIFContentRatings } from '../../@types/giphy';
+
 type GIFDetailsProps = {
   source: string;
   title?: string;
   shortUrl?: string;
-  rating?: string;
+  rating?: GIFContentRatings;
 };
 
 const styles = StyleSheet.create({

@@ -1,8 +1,10 @@
 import { View, Text, StyleSheet } from 'react-native';
 import type { ViewProps } from 'react-native';
 
+import type { GIFContentRatings } from '../../@types/giphy';
+
 type AgeRatingProps = {
-  rating?: 'g' | 'pg' | 'pg13' | 'r' | string;
+  rating?: GIFContentRatings;
   containerProps?: ViewProps;
 };
 

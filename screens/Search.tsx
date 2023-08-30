@@ -5,7 +5,8 @@ import type { TextInput } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { SearchBar } from '../components';
-import type { RootStackParams } from '../App';
+
+import type { RootStackParams } from '../@types/globals';
 
 type SearchProps = NativeStackScreenProps<RootStackParams, 'Search'>;
 

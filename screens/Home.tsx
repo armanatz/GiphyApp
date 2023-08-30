@@ -3,7 +3,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import { SearchBar } from '../components';
-import type { RootStackParams } from '../App';
+
+import type { RootStackParams } from '../@types/globals';
 
 type HomeProps = NativeStackScreenProps<RootStackParams, 'Home'>;
 

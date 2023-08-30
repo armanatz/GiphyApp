@@ -8,11 +8,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { Home, Search, ViewGIF } from './screens';
 
-export type RootStackParams = {
-  Home: undefined;
-  Search: undefined;
-  ViewGIF: undefined;
-};
+import type { RootStackParams } from './@types/globals';
 
 const styles = StyleSheet.create({
   container: {
