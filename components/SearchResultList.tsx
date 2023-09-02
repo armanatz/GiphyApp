@@ -1,7 +1,16 @@
-import { View, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  ActivityIndicator,
+  TouchableHighlight,
+} from 'react-native';
 import { FlashList } from '@shopify/flash-list';
+import { useNavigation } from '@react-navigation/native';
+import type { NavigationProp } from '@react-navigation/native';
 
 import ImageWrapper from './ImageWrapper';
+import type { RootStackParams } from '../@types/globals';
 import type { GIFObject } from '../@types/giphy';
 
 type SearchResultListProps = {
@@ -24,16 +33,20 @@ export default function SearchResultList({
   data,
   dataIsLoading = false,
 }: SearchResultListProps) {
+  const navigation = useNavigation<NavigationProp<RootStackParams>>();
+
   return (
     <View style={styles.resultList}>
       {dataIsLoading ? (
         <FlashList
           data={data || []}
           renderItem={({ item }) => (
-            <ImageWrapper
-              source={item.images.fixed_height_small_still.url}
-              containerProps={{ style: styles.imageContainer }}
-            />
+            <TouchableHighlight onPress={() => navigation.navigate('ViewGIF')}>
+              <ImageWrapper
+                source={item.images.fixed_height_small_still.url}
+                containerProps={{ style: styles.imageContainer }}
+              />
+            </TouchableHighlight>
           )}
           estimatedItemSize={100}
           numColumns={3}
