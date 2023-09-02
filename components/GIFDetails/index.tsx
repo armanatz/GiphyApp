@@ -6,16 +6,7 @@ import AgeRating from './AgeRating';
 
 import commonStyles from './commonStyles';
 
-import type { ImageLoadingStatus } from '../../@types/globals';
-import type { GIFContentRatings } from '../../@types/giphy';
-
-type GIFDetailsProps = {
-  source?: string;
-  title?: string;
-  shortUrl?: string;
-  rating?: GIFContentRatings;
-  onImageLoadingStatusChange?: (imageStatus: ImageLoadingStatus) => void;
-};
+import type { GIFDetailsProps } from '../../@types/globals';
 
 export default function GIFDetails({
   source,
