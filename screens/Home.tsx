@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { GIFDetails, GIFDetailsSkeleton, SearchBar } from '../components';
 
@@ -19,10 +19,27 @@ const styles = StyleSheet.create({
 
 export default function Home({ navigation }: HomeProps) {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [screenIsFocused, setScreenIsFocused] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      setScreenIsFocused(false);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setScreenIsFocused(true);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
 
   const { data: randomGIF, isFetching: randomGIFIsFetching } = useRandomGIF({
     refetchInterval: data => {
-      if (isImageLoaded && data) {
+      if (isImageLoaded && data && screenIsFocused) {
         return 10000;
       }
       return 0;
