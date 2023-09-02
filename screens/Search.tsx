@@ -1,10 +1,13 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { TextInput } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import { SearchBar } from '../components';
+import { SearchBar, SearchResultList } from '../components';
+
+import { useDebounce } from '../hooks';
+import { useGIFSearch } from '../hooks/queries';
 
 import type { RootStackParams } from '../@types/globals';
 
@@ -17,6 +20,9 @@ const styles = StyleSheet.create({
 });
 
 export default function Search({ navigation }: SearchProps) {
+  const [searchValue, setSearchValue] = useState('');
+  const debouncedValue = useDebounce(searchValue);
+
   const searchInputRef = useRef<TextInput | null>(null);
 
   useEffect(() => {
@@ -29,14 +35,26 @@ export default function Search({ navigation }: SearchProps) {
     return unsubscribe;
   }, [navigation]);
 
+  const { data: searchResults, status: searchResultsStatus } = useGIFSearch(
+    { searchQuery: debouncedValue },
+    { enabled: debouncedValue.length >= 2 },
+  );
+
   return (
     <SafeAreaView>
       <SearchBar
         ref={searchInputRef}
         onCancelSearch={() => navigation.goBack()}
+        onChangeText={value => setSearchValue(value)}
       />
       <View style={styles.content}>
-        <Text>Search results:</Text>
+        {searchResultsStatus === 'success' ? (
+          <Text>Search results:</Text>
+        ) : null}
+        {searchResults?.data && searchResults?.data.length === 0 ? (
+          <Text>No GIFs Found</Text>
+        ) : null}
+        <SearchResultList data={searchResults?.data} />
       </View>
     </SafeAreaView>
   );
