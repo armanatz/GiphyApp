@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { Home, Search, ViewGIF } from './screens';
 
@@ -21,6 +22,8 @@ const commonStackScreenOpts = {
   headerShown: false,
   contentStyle: styles.container,
 };
+
+const queryClient = new QueryClient();
 
 function cacheFonts(fonts: Record<string, any>[]) {
   return fonts.map(font => Font.loadAsync(font));
@@ -55,31 +58,33 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{
-            ...commonStackScreenOpts,
-          }}
-        />
-        <Stack.Screen
-          name="Search"
-          component={Search}
-          options={{
-            ...commonStackScreenOpts,
-            animation: 'none',
-          }}
-        />
-        <Stack.Screen
-          name="ViewGIF"
-          component={ViewGIF}
-          options={{
-            ...commonStackScreenOpts,
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={Home}
+            options={{
+              ...commonStackScreenOpts,
+            }}
+          />
+          <Stack.Screen
+            name="Search"
+            component={Search}
+            options={{
+              ...commonStackScreenOpts,
+              animation: 'none',
+            }}
+          />
+          <Stack.Screen
+            name="ViewGIF"
+            component={ViewGIF}
+            options={{
+              ...commonStackScreenOpts,
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 }
