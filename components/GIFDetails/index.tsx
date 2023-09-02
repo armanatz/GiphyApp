@@ -6,13 +6,15 @@ import AgeRating from './AgeRating';
 
 import commonStyles from './commonStyles';
 
+import type { ImageLoadingStatus } from '../../@types/globals';
 import type { GIFContentRatings } from '../../@types/giphy';
 
 type GIFDetailsProps = {
-  source: string;
+  source?: string;
   title?: string;
   shortUrl?: string;
   rating?: GIFContentRatings;
+  onImageLoadingStatusChange?: (imageStatus: ImageLoadingStatus) => void;
 };
 
 export default function GIFDetails({
@@ -20,12 +22,14 @@ export default function GIFDetails({
   title,
   shortUrl,
   rating,
+  onImageLoadingStatusChange,
 }: GIFDetailsProps) {
   return (
     <>
       <ImageWrapper
         source={source}
         containerProps={{ style: commonStyles.imageContainer }}
+        onImageLoadingStatusChange={onImageLoadingStatusChange}
       />
       <View style={commonStyles.descriptionContainer}>
         <MetaData title={title} url={shortUrl} />
