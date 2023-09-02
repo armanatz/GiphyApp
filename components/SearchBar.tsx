@@ -1,4 +1,4 @@
-import { useState, forwardRef, LegacyRef } from 'react';
+import { useState, forwardRef, LegacyRef, useEffect } from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -12,9 +12,10 @@ interface SearchBarProps {
   asButton?: boolean;
   onActivateSearch?: () => void;
   onCancelSearch?: () => void;
+  onChangeText?: (value: string) => void;
 }
 
-const placeholderTextColor = '#545454';
+const PLACEHOLDER_TEXT_COLOR = '#545454';
 
 const styles = StyleSheet.create({
   container: {
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   text: {
-    color: placeholderTextColor,
+    color: PLACEHOLDER_TEXT_COLOR,
     fontSize: 16,
   },
   input: {
@@ -55,9 +56,15 @@ const SearchBar = forwardRef(function SearchBar(
   props: SearchBarProps,
   ref: LegacyRef<TextInput> | undefined,
 ) {
-  const { asButton, onActivateSearch, onCancelSearch } = props;
+  const { asButton, onActivateSearch, onCancelSearch, onChangeText } = props;
 
   const [inputValue, setInputValue] = useState<string>('');
+
+  useEffect(() => {
+    if (onChangeText) {
+      onChangeText(inputValue);
+    }
+  }, [inputValue]);
 
   function onActivateBtnPress() {
     if (onActivateSearch) {
@@ -103,7 +110,7 @@ const SearchBar = forwardRef(function SearchBar(
         <TextInput
           placeholder="Search"
           style={styles.input}
-          placeholderTextColor={placeholderTextColor}
+          placeholderTextColor={PLACEHOLDER_TEXT_COLOR}
           value={inputValue}
           onChangeText={onInputTextChange}
           ref={ref}
