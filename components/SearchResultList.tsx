@@ -1,12 +1,15 @@
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions, ActivityIndicator } from 'react-native';
 import { FlashList } from '@shopify/flash-list';
 
 import ImageWrapper from './ImageWrapper';
+import type { GIFObject } from '../@types/giphy';
+
+type SearchResultListProps = {
+  data?: GIFObject[];
+  dataIsLoading?: boolean;
+};
 
 const styles = StyleSheet.create({
-  content: {
-    marginTop: 25,
-  },
   resultList: {
     height: Dimensions.get('screen').height * 0.75,
   },
@@ -17,20 +20,29 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function SearchResultList({ data }) {
+export default function SearchResultList({
+  data,
+  dataIsLoading = false,
+}: SearchResultListProps) {
   return (
     <View style={styles.resultList}>
-      <FlashList
-        data={data}
-        renderItem={({ item }) => (
-          <ImageWrapper
-            source={item.images.fixed_height_small_still.url}
-            containerProps={{ style: styles.imageContainer }}
-          />
-        )}
-        estimatedItemSize={100}
-        numColumns={3}
-      />
+      {dataIsLoading ? (
+        <FlashList
+          data={data || []}
+          renderItem={({ item }) => (
+            <ImageWrapper
+              source={item.images.fixed_height_small_still.url}
+              containerProps={{ style: styles.imageContainer }}
+            />
+          )}
+          estimatedItemSize={100}
+          numColumns={3}
+        />
+      ) : (
+        <View style={{ marginTop: 50 }}>
+          <ActivityIndicator size="large" />
+        </View>
+      )}
     </View>
   );
 }

@@ -35,7 +35,11 @@ export default function Search({ navigation }: SearchProps) {
     return unsubscribe;
   }, [navigation]);
 
-  const { data: searchResults, status: searchResultsStatus } = useGIFSearch(
+  const {
+    data: searchResults,
+    status: searchResultsStatus,
+    isFetching,
+  } = useGIFSearch(
     { searchQuery: debouncedValue },
     { enabled: debouncedValue.length >= 2 },
   );
@@ -54,7 +58,10 @@ export default function Search({ navigation }: SearchProps) {
         {searchResults?.data && searchResults?.data.length === 0 ? (
           <Text>No GIFs Found</Text>
         ) : null}
-        <SearchResultList data={searchResults?.data} />
+        <SearchResultList
+          data={searchResults?.data}
+          dataIsLoading={!isFetching}
+        />
       </View>
     </SafeAreaView>
   );
