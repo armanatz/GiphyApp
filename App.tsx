@@ -8,7 +8,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { Home, Search, ViewGIF } from './screens';
-
+import { truncateText } from './utils';
 import type { RootStackParams } from './@types/globals';
 
 const styles = StyleSheet.create({
@@ -79,8 +79,19 @@ export default function App() {
           <Stack.Screen
             name="ViewGIF"
             component={ViewGIF}
-            options={{
-              ...commonStackScreenOpts,
+            options={({ route }) => {
+              let title = route.params.title;
+
+              if (title && title?.length >= 25) {
+                title = truncateText(title);
+              }
+
+              return {
+                ...commonStackScreenOpts,
+                headerShown: true,
+                headerTitleAlign: 'center',
+                title,
+              };
             }}
           />
         </Stack.Navigator>
