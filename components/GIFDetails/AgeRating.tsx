@@ -1,6 +1,8 @@
 import { View, Text, StyleSheet } from 'react-native';
 import type { ViewProps } from 'react-native';
 
+import commonStyles from './commonStyles';
+
 import type { GIFContentRatings } from '../../@types/giphy';
 
 type AgeRatingProps = {
@@ -9,14 +11,6 @@ type AgeRatingProps = {
 };
 
 const styles = StyleSheet.create({
-  circle: {
-    alignItems: 'center',
-    backgroundColor: 'grey',
-    borderRadius: 50,
-    height: 65,
-    justifyContent: 'center',
-    width: 65,
-  },
   gRatingBgColor: {
     backgroundColor: 'green',
   },
@@ -42,7 +36,7 @@ export default function AgeRating({ rating, containerProps }: AgeRatingProps) {
     <View
       {...containerProps}
       style={[
-        styles.circle,
+        commonStyles.ratingCircle,
         styles[`${rating}RatingBgColor` as keyof typeof styles],
         containerProps?.style,
       ]}
