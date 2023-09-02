@@ -91,6 +91,12 @@ export default function App() {
                 headerShown: true,
                 headerTitleAlign: 'center',
                 title,
+                contentStyle: [
+                  styles.container,
+                  {
+                    paddingVertical: 0,
+                  },
+                ],
               };
             }}
           />
