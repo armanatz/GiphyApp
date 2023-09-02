@@ -1,4 +1,4 @@
-export type GIFContentRatings = 'g' | 'pg' | 'pg13' | 'r';
+export type GIFContentRatings = 'g' | 'pg' | 'pg-13' | 'r';
 
 export type CommonImageObjectProps = {
   url: string;

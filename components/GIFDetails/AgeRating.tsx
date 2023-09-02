@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   pgRatingBgColor: {
     backgroundColor: 'orange',
   },
-  pg13RatingBgColor: {
+  'pg-13RatingBgColor': {
     backgroundColor: 'purple',
   },
   rRatingBgColor: {
