@@ -41,7 +41,16 @@ export default function SearchResultList({
         <FlashList
           data={data || []}
           renderItem={({ item }) => (
-            <TouchableHighlight onPress={() => navigation.navigate('ViewGIF')}>
+            <TouchableHighlight
+              onPress={() =>
+                navigation.navigate('ViewGIF', {
+                  source: item.images.original.webp,
+                  shortUrl: item.bitly_url || item.url,
+                  title: item.title,
+                  rating: item.rating,
+                })
+              }
+            >
               <ImageWrapper
                 source={item.images.fixed_height_small_still.url}
                 containerProps={{ style: styles.imageContainer }}

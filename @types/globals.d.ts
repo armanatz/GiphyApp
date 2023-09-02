@@ -11,7 +11,7 @@ export type GIFDetailsProps = {
 export type RootStackParams = {
   Home: undefined;
   Search: undefined;
-  ViewGIF: undefined;
+  ViewGIF: Omit<GIFDetailsProps, 'onImageLoadingStatusChange'>;
 };
 
 export type ImageLoadingStatus = 'loading' | 'success';
