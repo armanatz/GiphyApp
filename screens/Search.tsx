@@ -1,6 +1,8 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFocusEffect } from '@react-navigation/native';
+
 import type { TextInput } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 
@@ -25,16 +27,6 @@ export default function Search({ navigation }: SearchProps) {
 
   const searchInputRef = useRef<TextInput | null>(null);
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('transitionEnd', () => {
-      if (searchInputRef.current !== null) {
-        searchInputRef.current.focus();
-      }
-    });
-
-    return unsubscribe;
-  }, [navigation]);
-
   const {
     data: searchResults,
     status: searchResultsStatus,
@@ -43,6 +35,12 @@ export default function Search({ navigation }: SearchProps) {
     { searchQuery: debouncedValue },
     { enabled: debouncedValue.length >= 2 },
   );
+
+  useFocusEffect(() => {
+    if (!searchResults) {
+      searchInputRef.current?.focus();
+    }
+  });
 
   return (
     <SafeAreaView>
