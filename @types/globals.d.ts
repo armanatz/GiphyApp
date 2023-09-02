@@ -3,3 +3,5 @@ export type RootStackParams = {
   Search: undefined;
   ViewGIF: undefined;
 };
+
+export type ImageLoadingStatus = 'loading' | 'success';
