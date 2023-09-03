@@ -35,29 +35,33 @@ export default function SearchResultList({
 }: SearchResultListProps) {
   const navigation = useNavigation<NavigationProp<RootStackParams>>();
 
+  function onPressItem(item: GIFObject) {
+    return navigation.navigate('ViewGIF', {
+      source: item.images.original.webp,
+      shortUrl: item.bitly_url || item.url,
+      title: item.title,
+      rating: item.rating,
+    });
+  }
+
   return (
     <View style={styles.resultList}>
       {dataIsLoading ? (
         <FlashList
           data={data || []}
-          renderItem={({ item }) => (
-            <TouchableHighlight
-              onPress={() =>
-                navigation.navigate('ViewGIF', {
-                  source: item.images.original.webp,
-                  shortUrl: item.bitly_url || item.url,
-                  title: item.title,
-                  rating: item.rating,
-                })
-              }
-            >
-              <ImageWrapper
-                source={item.images.fixed_height_small_still.url}
-                containerProps={{ style: styles.imageContainer }}
-              />
-            </TouchableHighlight>
-          )}
-          estimatedItemSize={100}
+          renderItem={({ item }) => {
+            const { url } = item.images.fixed_height_small_still;
+
+            return (
+              <TouchableHighlight onPress={() => onPressItem(item)}>
+                <ImageWrapper
+                  source={url}
+                  containerProps={{ style: styles.imageContainer }}
+                />
+              </TouchableHighlight>
+            );
+          }}
+          estimatedItemSize={25}
           numColumns={3}
         />
       ) : (
