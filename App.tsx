@@ -80,10 +80,10 @@ export default function App() {
             name="ViewGIF"
             component={ViewGIF}
             options={({ route }) => {
-              let title = route.params.title;
+              let title = 'GIF has no title';
 
-              if (title && title?.length >= 25) {
-                title = truncateText(title);
+              if (route.params.title && route.params.title?.length >= 25) {
+                title = truncateText(route.params.title);
               }
 
               return {
