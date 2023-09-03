@@ -27,6 +27,9 @@ const styles = StyleSheet.create({
     width: 100,
     marginVertical: 5,
   },
+  activityIndicator: {
+    marginTop: 50,
+  },
 });
 
 export default function SearchResultList({
@@ -65,7 +68,7 @@ export default function SearchResultList({
           numColumns={3}
         />
       ) : (
-        <View style={{ marginTop: 50 }}>
+        <View style={styles.activityIndicator}>
           <ActivityIndicator size="large" />
         </View>
       )}
