@@ -15,3 +15,10 @@ export type RootStackParams = {
 };
 
 export type ImageLoadingStatus = 'loading' | 'success';
+
+export type SearchBarProps = {
+  asButton?: boolean;
+  onActivateSearch?: () => void;
+  onCancelSearch?: () => void;
+  onChangeText?: (value: string) => void;
+};
