@@ -3,6 +3,7 @@ import SearchResultList from './SearchResultList';
 import ImageWrapper from './ImageWrapper';
 import GIFDetails from './GIFDetails';
 import GIFDetailsSkeleton from './GIFDetails/GIFDetailsSkeleton';
+import HeaderBackBtn from './HeaderBackBtn';
 
 export {
   SearchBar,
@@ -10,4 +11,5 @@ export {
   ImageWrapper,
   GIFDetails,
   GIFDetailsSkeleton,
+  HeaderBackBtn,
 };
