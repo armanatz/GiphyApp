@@ -40,6 +40,8 @@ export default function AgeRating({ rating, containerProps }: AgeRatingProps) {
         styles[`${rating}RatingBgColor` as keyof typeof styles],
         containerProps?.style,
       ]}
+      accessibilityLabel={`Content rating of GIF is ${rating || 'N/A'}`}
+      accessible={true}
     >
       <Text style={styles.content}>{rating?.toLocaleUpperCase() || 'N/A'}</Text>
     </View>

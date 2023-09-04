@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 export default function GIFDetailsSkeleton() {
   return (
     <>
-      <View>
+      <View accessible accessibilityLabel="GIF loading animation">
         <SkeletonPlaceholder>
           <SkeletonPlaceholder.Item style={commonStyles.imageContainer} />
         </SkeletonPlaceholder>

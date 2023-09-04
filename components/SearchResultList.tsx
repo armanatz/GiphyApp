@@ -56,7 +56,10 @@ export default function SearchResultList({
             const { url } = item.images.fixed_height_small_still;
 
             return (
-              <TouchableHighlight onPress={() => onPressItem(item)}>
+              <TouchableHighlight
+                onPress={() => onPressItem(item)}
+                accessibilityHint="View GIF details"
+              >
                 <ImageWrapper
                   source={url}
                   containerProps={{ style: styles.imageContainer }}

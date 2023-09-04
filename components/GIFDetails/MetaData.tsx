@@ -14,10 +14,17 @@ export default function MetaData({
   url,
   containerProps,
 }: MetaDataProps) {
+  const truncatedTitle = renderTitleOrUrl({ type: 'title', text: title });
+  const truncatedUrl = renderTitleOrUrl({ type: 'url', text: url });
+
   return (
     <View {...containerProps}>
-      <Text>{renderTitleOrUrl({ type: 'title', text: title })}</Text>
-      <Text>{renderTitleOrUrl({ type: 'url', text: url })}</Text>
+      <Text accessibilityLabel={`Title of GIF is ${truncatedTitle}`}>
+        {truncatedTitle}
+      </Text>
+      <Text accessibilityLabel={`URL of GIF is ${truncatedUrl}`}>
+        {truncatedUrl}
+      </Text>
     </View>
   );
 }

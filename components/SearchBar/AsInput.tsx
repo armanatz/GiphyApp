@@ -59,9 +59,14 @@ const AsInput = forwardRef<TextInput, SearchBarProps>(
             value={inputValue}
             onChangeText={setInputValue}
             ref={ref}
+            accessibilityHint="Search for GIFs"
           />
           {inputValue.length > 0 && (
-            <TouchableOpacity onPress={clearInput} activeOpacity={0.5}>
+            <TouchableOpacity
+              onPress={clearInput}
+              activeOpacity={0.5}
+              accessibilityHint="Clear search"
+            >
               <View style={styles.closeIcon}>
                 <Ionicons name="close-circle" size={18} />
               </View>

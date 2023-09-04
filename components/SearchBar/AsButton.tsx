@@ -13,6 +13,7 @@ export default function AsButton({
       onPress={onActivateSearch}
       style={commonStyles.container}
       activeOpacity={1}
+      accessibilityHint="Search for GIFs"
     >
       <View style={commonStyles.inputContainer}>
         <Ionicons name="search" size={22} />
