@@ -8,6 +8,13 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import AppNavigator from './AppNavigator';
 
+// Uncomment to run mock API server for development
+// import { mswDev } from './mocks/api/server.dev';
+
+// if (process.env.NODE_ENV === 'development') {
+//   mswDev.listen({ onUnhandledRequest: 'bypass' });
+// }
+
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
