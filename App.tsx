@@ -1,5 +1,4 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StyleSheet } from 'react-native';
 import { useEffect, useState } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
@@ -7,9 +6,7 @@ import * as Font from 'expo-font';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { Home, Search, ViewGIF } from './screens';
-import { truncateText } from './utils';
-import type { RootStackParams } from './@types/globals';
+import AppNavigator from './AppNavigator';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,8 +48,6 @@ export default function App() {
     loadResourcesAndDataAsync();
   }, []);
 
-  const Stack = createNativeStackNavigator<RootStackParams>();
-
   if (!appIsReady) {
     return null;
   }
@@ -60,47 +55,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={Home}
-            options={{
-              ...commonStackScreenOpts,
-            }}
-          />
-          <Stack.Screen
-            name="Search"
-            component={Search}
-            options={{
-              ...commonStackScreenOpts,
-              animation: 'none',
-            }}
-          />
-          <Stack.Screen
-            name="ViewGIF"
-            component={ViewGIF}
-            options={({ route }) => {
-              let title = 'GIF has no title';
-
-              if (route.params.title && route.params.title?.length >= 25) {
-                title = truncateText(route.params.title);
-              }
-
-              return {
-                ...commonStackScreenOpts,
-                headerShown: true,
-                headerTitleAlign: 'center',
-                title,
-                contentStyle: [
-                  styles.container,
-                  {
-                    paddingVertical: 0,
-                  },
-                ],
-              };
-            }}
-          />
-        </Stack.Navigator>
+        <AppNavigator {...commonStackScreenOpts} />
       </NavigationContainer>
     </QueryClientProvider>
   );
