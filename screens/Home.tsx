@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 
 import { GIFDetails, GIFDetailsSkeleton, SearchBar } from '../components';
@@ -23,7 +23,12 @@ export default function Home({ navigation }: HomeProps) {
 
   const screenIsFocused = useIsFocused();
 
-  const { data: randomGIF, isFetching: randomGIFIsFetching } = useRandomGIF({
+  const {
+    data: randomGIF,
+    status: randomGIFStatus,
+    isFetching: randomGIFIsFetching,
+    refetch,
+  } = useRandomGIF({
     refetchInterval: data => {
       if (isImageLoaded && data && screenIsFocused) {
         return 10000;
@@ -31,6 +36,25 @@ export default function Home({ navigation }: HomeProps) {
       return 0;
     },
   });
+
+  useEffect(() => {
+    if (randomGIFStatus === 'error') {
+      Alert.alert(
+        'Network Error',
+        'An error occurred while fetching a random GIF.',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Retry',
+            onPress: () => refetch(),
+          },
+        ],
+      );
+    }
+  }, [randomGIFStatus]);
 
   return (
     <SafeAreaView>
@@ -40,7 +64,7 @@ export default function Home({ navigation }: HomeProps) {
       />
       <View style={styles.content}>
         <Text>Random selected GIF:</Text>
-        {randomGIFIsFetching ? (
+        {randomGIFIsFetching || randomGIFStatus !== 'success' ? (
           <GIFDetailsSkeleton />
         ) : (
           <GIFDetails
