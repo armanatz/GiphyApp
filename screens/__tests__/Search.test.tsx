@@ -5,6 +5,7 @@ import {
   screen,
   act,
   userEvent,
+  waitFor,
 } from '@testing-library/react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -15,7 +16,10 @@ import AppNavigator from '../../AppNavigator';
 
 import { mswJest } from '../../mocks/api/server.jest';
 
-import { GIPHY_GIF_TITLE } from '../../mocks/api/constants';
+import {
+  GIPHY_API_SEARCH_ENDPOINT,
+  GIPHY_GIF_TITLE,
+} from '../../mocks/api/constants';
 
 type AllScreensProps = {
   queryClient?: QueryClient;
@@ -114,6 +118,57 @@ describe('navigation', () => {
     const gifTitle = await screen.findByText(GIPHY_GIF_TITLE);
     expect(gifTitle).toBeOnTheScreen();
   });
+});
+
+describe('error handling', () => {
+  it('displays an alert if searching API errors out', async () => {
+    const queryClient = new QueryClient({
+      defaultOptions: {
+        queries: {
+          retry: false,
+          cacheTime: Infinity,
+        },
+      },
+      logger: {
+        log: console.log,
+        warn: console.warn,
+        error: process.env.NODE_ENV === 'test' ? () => {} : console.error,
+      },
+    });
+
+    mswJest.use(
+      rest.get(GIPHY_API_SEARCH_ENDPOINT, (_, res, ctx) =>
+        res(ctx.status(500)),
+      ),
+    );
+
+    jest.spyOn(Alert, 'alert');
+
+    render(<AllScreens queryClient={queryClient} />);
+
+    const searchBarAsButton = screen.getByText('Search');
+    fireEvent.press(searchBarAsButton);
+
+    const searchBarAsInput = await screen.findByPlaceholderText('Search');
+
+    await act(async () => {
+      const user = userEvent.setup();
+      await user.type(searchBarAsInput, 'test', {
+        skipPress: true,
+        submitEditing: false,
+      });
+    });
+
+    await waitFor(() =>
+      expect(Alert.alert).toHaveBeenCalledWith(
+        'Network Error',
+        'An error occurred while searching for GIFs.',
+        expect.any(Array),
+      ),
+    );
+  });
+
+  it.todo('refetches data when retry button is pressed in alert');
 });
 
 describe('behaviors', () => {
