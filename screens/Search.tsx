@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { useRef, useState, useEffect } from 'react';
+import { Text, View, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -31,6 +31,7 @@ export default function Search({ navigation }: SearchProps) {
     data: searchResults,
     status: searchResultsStatus,
     isFetching,
+    refetch,
   } = useGIFSearch(
     { searchQuery: debouncedValue },
     { enabled: debouncedValue.length >= 2 },
@@ -41,6 +42,25 @@ export default function Search({ navigation }: SearchProps) {
       searchInputRef.current?.focus();
     }
   });
+
+  useEffect(() => {
+    if (searchResultsStatus === 'error') {
+      Alert.alert(
+        'Network Error',
+        'An error occurred while searching for GIFs.',
+        [
+          {
+            text: 'Cancel',
+            style: 'cancel',
+          },
+          {
+            text: 'Retry',
+            onPress: () => refetch(),
+          },
+        ],
+      );
+    }
+  }, [searchResultsStatus]);
 
   return (
     <SafeAreaView>
